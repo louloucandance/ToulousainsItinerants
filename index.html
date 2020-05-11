@@ -1,13 +1,15 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-  <title>A Leaflet map!</title>
+  <title>Itinérance Toulousaine</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""></script>
+      <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"
+        crossorigin=""></script>
   <style>
     body {
       margin: 0;
@@ -37,7 +39,7 @@
       border-left: solid 2px black;
       border-right: solid 2px black;
     }
-    #mapid {
+    #map {
       height: calc(100vh - 60px);
       width: 100%;
     }
@@ -59,13 +61,12 @@
       Liaison de la note au département Français
     </div></div>
   </div>
-  <div id="mapid"></div>
+  <div id="map"></div>
 
   <script>
 
   // initialize the map
-  var mymap = L.map('mapid').setView([46.61, 2.4], 6.7);
-  // load a tile layer
+  var map = L.map('map').setView([46.61, 2.4], 6.7);
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -73,10 +74,21 @@
     tileSize: 512,
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoidGlncmk5IiwiYSI6ImNrYTJndGY2NDAzMjMza2xrZHZvbWtqOTgifQ.M0zsMOzbE-vrjD08Jij7eg'
-  }).addTo(mymap);
+  }).addTo(map);
+
+  // load departements
+  require(['./departements.js'], () => {
+    L.geoJSON(departements, {
+      style: feature => {
+          switch (feature.properties.code) {
+              case "31": return {color: "#ff0000"};
+          }
+          return {color: "#00ff00"}
+      }
+    }).addTo(map);
+  });
 
   </script>
 </body>
-
 </html>
 	
