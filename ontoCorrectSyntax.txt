@@ -1,0 +1,39 @@
+@prefix :      <http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+:a_une_note_de  a    owl:DatatypeProperty ;
+        rdfs:domain  :Film ;
+        rdfs:range   xsd:nonNegativeInteger .
+
+:correspond_a  a     owl:ObjectProperty ;
+        rdfs:domain  :Film ;
+        rdfs:range   :Departement .
+
+:Departement  a  owl:Class .
+
+:a_pour_numero  a    owl:DatatypeProperty ;
+        rdfs:domain  :Departement ;
+        rdfs:range   xsd:nonNegativeInteger .
+
+:Film   a       owl:Class .
+
+:a_pour_nom  a      owl:DatatypeProperty ;
+        rdfs:range  xsd:string .
+
+:Us     a               :Film , owl:NamedIndividual ;
+        :a_pour_nom     "Us" ;
+        :a_une_note_de  31 ;
+        :correspond_a   :Haute-Garonne .
+
+:Haute-Garonne  a       :Departement , owl:NamedIndividual ;
+        :a_pour_nom     "Haute-Garonne" ;
+        :a_pour_numero  31 .
+
+:Departement21  a       :Departement , owl:NamedIndividual ;
+        :a_pour_nom     "Patatze" ;
+        :a_pour_numero  21 .
+<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10>
+        a       owl:Ontology .
