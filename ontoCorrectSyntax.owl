@@ -104,6 +104,7 @@
     <!-- http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Haute-Garonne -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Haute-Garonne">
+        <rdf:type rdf:resource="http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Departement"/>
         <a_pour_nom>Haute-Garonne</a_pour_nom>
         <a_pour_numero rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">31</a_pour_numero>
     </owl:NamedIndividual>
@@ -113,7 +114,9 @@
     <!-- http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Us -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Us">
+        <rdf:type rdf:resource="http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Film"/>
         <correspond_a rdf:resource="http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#Haute-Garonne"/>
+        <a_pour_nom>Us</a_pour_nom>
         <a_une_note_de rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">31</a_une_note_de>
     </owl:NamedIndividual>
 </rdf:RDF>
