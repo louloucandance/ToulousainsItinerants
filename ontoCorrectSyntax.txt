@@ -11,16 +11,16 @@
 #    Datatype Property
 #################################################################
 
-:a_une_note_de  a    owl:DatatypeProperty ;
+:a_pour_nom  a      owl:DatatypeProperty ;
+        rdfs:range  xsd:string .
+
+:a_pour_note  a    owl:DatatypeProperty ;
         rdfs:domain  :Film ;
         rdfs:range   xsd:nonNegativeInteger .
 
 :a_pour_numero  a    owl:DatatypeProperty ;
         rdfs:domain  :Departement ;
         rdfs:range   xsd:nonNegativeInteger .
-
-:a_pour_nom  a      owl:DatatypeProperty ;
-        rdfs:range  xsd:string .
 
 #################################################################
 #    Object Properties
