@@ -44,7 +44,7 @@
 
 :Us     a               :Film , owl:NamedIndividual ;
         :a_pour_nom     "Us" ;
-        :a_une_note_de  31 ;
+        :a_pour_note  31 ;
         :correspond_a   :Haute-Garonne .
 
 #################################################################
