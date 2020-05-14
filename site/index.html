@@ -212,11 +212,11 @@
     });
   }
 
-  require(['./departements.js'], () => {
+  require(['./departementLocations.js'], () => {
 
     queryDB();
 
-    L.geoJSON(departements, {
+    L.geoJSON(departementLocations, {
       style: feature => {
         let color = null;
         if (feature.properties.code > 75) {
