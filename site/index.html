@@ -212,7 +212,7 @@
     accessToken: 'pk.eyJ1IjoidGlncmk5IiwiYSI6ImNrYTJndGY2NDAzMjMza2xrZHZvbWtqOTgifQ.M0zsMOzbE-vrjD08Jij7eg'
   }).addTo(map);
 
-  // load data
+  // request data
 
   var filmsParDepartements = {};
 
@@ -237,7 +237,7 @@
 
         console.log(result.results.bindings);
         document.getElementById('loader').classList.add('success');
-        // TODO
+
         for (let filmKey in result.results.bindings) {
           let film = result.results.bindings[filmKey];
           if (filmsParDepartements[parseInt(film.note.value)] !== undefined) {
@@ -304,6 +304,8 @@
   }
 
   queryDB();
+
+  // upload data
 
   require(['./departementCodes.js'], () => {
     document.getElementById('upload').classList.add('file-loaded');
