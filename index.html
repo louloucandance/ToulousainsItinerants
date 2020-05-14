@@ -39,8 +39,60 @@
       border-left: solid 2px black;
       border-right: solid 2px black;
     }
+    #color-bar {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      height: 20px;
+      width: 100%;
+      font-size: 18px;
+      border-bottom: solid 2px black;
+    }
+    #color-bar .color-bar-content {
+      flex: 1;
+      z-index: 1;
+    }
+    #color-bar .color-bar-content:first-child {
+      padding-left: 8px;
+    }
+    #color-bar .color-bar-content:last-child {
+      padding-right: 8px;
+    }
+    #color-bar .color-bar-content.color-bar-right {
+      text-align: right;
+    }
+    #color-bar .color-bar-center {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      line-height: 20px;
+      height: 20px;
+      text-align: center;
+    }
+    #color-bar .color-bar-center .color {
+      flex: 1;
+    }
+    #color-bar .color-bar-center .color.color-1 {
+      background-image: linear-gradient(to right, #FF881A , #FFBF17);
+    }
+    #color-bar .color-bar-center .color.color-2 {
+      background-image: linear-gradient(to right, #FFBF17 , #FFF237);
+    }
+    #color-bar .color-bar-center .color.color-3 {
+      background-image: linear-gradient(to right, #FFF237 , #8EFF2B);
+    }
+    #color-bar .color-bar-center .color-bar-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
     #map {
-      height: calc(100vh - 60px);
+      height: calc(100vh - 62px - 22px);
       width: 100%;
     }
   </style>
@@ -60,6 +112,18 @@
     <div class="info-text"><div class="info-text-content">
       Liaison de la note au département Français
     </div></div>
+  </div>
+  <div id="color-bar">
+    <div class="color-bar-content">0</div>
+    <div class="color-bar-content">25</div>
+    <div class="color-bar-center">
+      <div class="color color-1"></div>
+      <div class="color color-2"></div>
+      <div class="color color-3"></div>
+      <div class="color-bar-text">50</div>
+    </div>
+    <div class="color-bar-content color-bar-right">75</div>
+    <div class="color-bar-content color-bar-right">100</div>
   </div>
   <div id="map"></div>
 
