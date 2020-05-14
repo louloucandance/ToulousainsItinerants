@@ -103,6 +103,7 @@
     }
     .tooltip {
       padding: 2px 4px;
+      text-align: center;
     }
 
     #upload {
@@ -211,7 +212,9 @@
     accessToken: 'pk.eyJ1IjoidGlncmk5IiwiYSI6ImNrYTJndGY2NDAzMjMza2xrZHZvbWtqOTgifQ.M0zsMOzbE-vrjD08Jij7eg'
   }).addTo(map);
 
-  // load departements
+  // load data
+
+  var filmsParDepartements = {};
 
   function queryDB() {
     document.getElementById('loader').classList.remove('error');
@@ -223,9 +226,62 @@
         + encodeURIComponent('PREFIX :<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#> SELECT * WHERE{:Us ?b ?a}')
         + "&format=json",
       success: result => {
+
         console.log({ result });
         document.getElementById('loader').classList.add('success');
-        
+        // TODO
+        for (let filmKey in result) {
+          let film = result[filmKey];
+          if (filmsParDepartements[film.code] !== undefined) {
+            filmsParDepartements[film.code].push(film);
+          } else {
+            filmsParDepartements[film.code] = [
+              film
+            ]
+          }
+        }
+
+        require(['./departementLocations.js'], () => {
+
+          L.geoJSON(departementLocations, {
+            style: feature => {
+              let size = filmsParDepartements[feature.properties.code] !== undefined
+                ? filmsParDepartements[feature.properties.code].length
+                : 0;
+              let color = null;
+              if (size > 75) {
+                  color = '#8EFF2B';
+              } else if (size > 50) {
+                  color = '#FFF237';
+              } else if (size > 25) {
+                  color = '#FFBF17';
+              } else {
+                  color = '#FF881A';
+              }
+              
+              return {
+                weight: 2,
+                opacity: 0.3,
+                color
+              }
+            },
+            onEachFeature: (feature, layer) => {
+              let size = filmsParDepartements[feature.properties.code] !== undefined
+                ? filmsParDepartements[feature.properties.code].length
+                : 0;
+              layer.bindTooltip(
+                `${feature.properties.code} : ${feature.properties.nom}<br/>${size}`,
+                {
+                  permanent: true,
+                  direction: 'center',
+                  className: 'tooltip'
+                }
+              );
+            }
+          }).addTo(map);
+
+        });
+
       },
       error: (result, textStatus, errorThrown) => {
         console.log({ result, textStatus, errorThrown });
@@ -239,44 +295,7 @@
     });
   }
 
-  require(['./departementLocations.js'], () => {
-
-    queryDB();
-
-    L.geoJSON(departementLocations, {
-      style: feature => {
-        let color = null;
-        if (feature.properties.code > 75) {
-            color = '#8EFF2B';
-        } else if (feature.properties.code > 50) {
-            color = '#FFF237';
-        } else if (feature.properties.code > 25) {
-            color = '#FFBF17';
-        } else {
-            color = '#FF881A';
-        }
-        
-        return {
-          weight: 2,
-          opacity: 0.3,
-          color
-        }
-      },
-      onEachFeature: (feature, layer) => {
-        layer.bindTooltip(
-          `${feature.properties.code} : ${feature.properties.nom}`,
-          {
-            permanent: true,
-            direction: 'center',
-            className: 'tooltip'
-          }
-        );
-      }
-    }).addTo(map);
-
-  });
-
-  
+  queryDB();
 
   require(['./departementCodes.js'], () => {
     document.getElementById('upload').classList.add('file-loaded');
