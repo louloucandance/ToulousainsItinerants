@@ -95,6 +95,9 @@
       height: calc(100vh - 62px - 22px);
       width: 100%;
     }
+    .tooltip {
+      padding: 2px 4px;
+    }
   </style>
 </head>
 
@@ -142,7 +145,7 @@
 
   // load departements
   require(['./departements.js'], () => {
-    let polygon = L.geoJSON(departements, {
+    L.geoJSON(departements, {
       style: feature => {
         let color = null;
         if (feature.properties.code > 75) {
@@ -165,7 +168,14 @@
         }
       },
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(`${feature.properties.code} : ${feature.properties.nom}`);
+        layer.bindTooltip(
+          `${feature.properties.code} : ${feature.properties.nom}`,
+          {
+            permanent: true,
+            direction: 'center',
+            className: 'tooltip'
+          }
+        );
       }
     }).addTo(map);
   });
