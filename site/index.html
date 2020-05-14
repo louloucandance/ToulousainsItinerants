@@ -13,9 +13,11 @@
         crossorigin=""></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
+
     body {
       margin: 0;
     }
+
     #info {
       display: flex;
       flex-direction: row;
@@ -41,6 +43,7 @@
       border-left: solid 2px black;
       border-right: solid 2px black;
     }
+
     #color-bar {
       position: relative;
       display: flex;
@@ -93,6 +96,7 @@
       width: 100%;
       text-align: center;
     }
+
     #map {
       height: calc(100vh - 62px - 22px);
       width: 100%;
@@ -100,6 +104,36 @@
     .tooltip {
       padding: 2px 4px;
     }
+
+    #loader {
+      position: absolute;
+      top: 114px;
+      right: 40px;
+      border: 14px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: #236863;
+      width: 40px;
+      height: 40px;
+      -webkit-animation: spin 1.5s linear infinite; /* Safari */
+      animation: spin 1.5s linear infinite;
+      z-index: 1000;
+    }
+    #loader.success {
+      border-color: #779D34;
+    }
+    #loader.error {
+      border-color: #AA3939;
+    }
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
   </style>
 </head>
 
@@ -118,6 +152,7 @@
       Liaison de la note au département Français
     </div></div>
   </div>
+
   <div id="color-bar">
     <div class="color-bar-content">0</div>
     <div class="color-bar-content">25</div>
@@ -130,7 +165,10 @@
     <div class="color-bar-content color-bar-right">75</div>
     <div class="color-bar-content color-bar-right">100</div>
   </div>
+
   <div id="map"></div>
+
+  <div id="loader"></div>
 
   <script>
 
@@ -156,9 +194,11 @@
         + "&format=json",
       success: result => {
         console.log({ result });
+        document.getElementById('loader').classList.add('success');
       },
       error: (result, textStatus, errorThrown) => {
         console.log({ result, textStatus, errorThrown });
+        document.getElementById('loader').classList.add('error');
       }
     });
 
@@ -176,9 +216,6 @@
         }
         
         return {
-          name: feature.properties.nom,
-          "amenity": "Baseball Stadium",
-          "popupContent": "This is where the Rockies play!",
           weight: 2,
           opacity: 0.3,
           color
