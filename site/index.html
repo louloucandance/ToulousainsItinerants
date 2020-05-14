@@ -180,15 +180,15 @@
 
   <div id="color-bar">
     <div class="color-bar-content">0</div>
-    <div class="color-bar-content">25</div>
+    <div class="color-bar-content">1</div>
     <div class="color-bar-center">
       <div class="color color-1"></div>
       <div class="color color-2"></div>
       <div class="color color-3"></div>
-      <div class="color-bar-text">50</div>
+      <div class="color-bar-text">5</div>
     </div>
-    <div class="color-bar-content color-bar-right">75</div>
-    <div class="color-bar-content color-bar-right">100</div>
+    <div class="color-bar-content color-bar-right">7</div>
+    <div class="color-bar-content color-bar-right"></div>
   </div>
 
   <div id="map"></div>
@@ -223,19 +223,27 @@
       url:
         'http://localhost:3030/Web/query'
         + "?query="
-        + encodeURIComponent('PREFIX :<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#> SELECT * WHERE{:Us ?b ?a}')
+        + encodeURIComponent(
+          'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'
+          + 'PREFIX :<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#>'
+          + 'SELECT * WHERE {'
+          + '?film rdf:type :Film.'
+          + '?film :a_pour_nom ?nom.'
+          + '?film :a_une_note_de ?note'
+          + '}'
+        )
         + "&format=json",
       success: result => {
 
-        console.log({ result });
+        console.log(result.results.bindings);
         document.getElementById('loader').classList.add('success');
         // TODO
-        for (let filmKey in result) {
-          let film = result[filmKey];
-          if (filmsParDepartements[film.code] !== undefined) {
-            filmsParDepartements[film.code].push(film);
+        for (let filmKey in result.results.bindings) {
+          let film = result.results.bindings[filmKey];
+          if (filmsParDepartements[parseInt(film.note.value)] !== undefined) {
+            filmsParDepartements[parseInt(film.note.value)].push(film);
           } else {
-            filmsParDepartements[film.code] = [
+            filmsParDepartements[parseInt(film.note.value)] = [
               film
             ]
           }
@@ -249,11 +257,11 @@
                 ? filmsParDepartements[feature.properties.code].length
                 : 0;
               let color = null;
-              if (size > 75) {
+              if (size >= 7) {
                   color = '#8EFF2B';
-              } else if (size > 50) {
+              } else if (size >= 5) {
                   color = '#FFF237';
-              } else if (size > 25) {
+              } else if (size >= 1) {
                   color = '#FFBF17';
               } else {
                   color = '#FF881A';
