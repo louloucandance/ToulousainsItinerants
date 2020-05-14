@@ -105,6 +105,25 @@
       padding: 2px 4px;
     }
 
+    #upload {
+      position: absolute;
+      top: 112px;
+      right: 132px;
+      display: flex;
+      width: 69px;
+      height: 69px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    #upload .upload-icon {
+      margin: auto;
+      font-size: 36px;
+      transition: ease 0.4s;
+    }
+    #upload:hover .upload-icon {
+      font-size: 48px;
+    }
+
     #loader {
       position: absolute;
       top: 114px;
@@ -168,6 +187,9 @@
 
   <div id="map"></div>
 
+  <div id="upload">
+    <div class="upload-icon">🚀</div>
+  </div>
   <div id="loader"></div>
 
   <script>
@@ -248,6 +270,10 @@
     }).addTo(map);
 
   });
+
+  document.getElementById('upload').onclick = () => {
+    console.log('clicked');
+  };
 
   </script>
 </body>
