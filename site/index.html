@@ -11,6 +11,7 @@
       crossorigin=""></script>
       <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"
         crossorigin=""></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -46,7 +47,7 @@
       flex-direction: row;
       height: 20px;
       width: 100%;
-      font-size: 18px;
+      font-size: 17px;
       border-bottom: solid 2px black;
     }
     #color-bar .color-bar-content {
@@ -146,6 +147,21 @@
 
   // load departements
   require(['./departements.js'], () => {
+
+    $.ajax({
+      url:
+        'http://localhost:3030/Web/query '
+        + "?query"
+        + encodeURIComponent('SELECT * {?s ?p ?o}')
+        + "&format=json",
+      success: result => {
+        console.log({ result });
+      },
+      error: (result, textStatus, errorThrown) => {
+        console.log({ result, textStatus, errorThrown });
+      }
+    });
+
     L.geoJSON(departements, {
       style: feature => {
         let color = null;
@@ -179,6 +195,7 @@
         );
       }
     }).addTo(map);
+
   });
 
   </script>
