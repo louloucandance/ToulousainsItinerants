@@ -252,8 +252,11 @@
 
           L.geoJSON(departementLocations, {
             style: feature => {
-              let size = filmsParDepartements[feature.properties.code] !== undefined
-                ? filmsParDepartements[feature.properties.code].length
+              let code = feature.properties.code == '2A'
+                || feature.properties.code == '2B'
+                ? '20' : feature.properties.code;
+              let size = filmsParDepartements[code] !== undefined
+                ? filmsParDepartements[code].length
                 : 0;
               let color = null;
               if (size >= 7) {
@@ -273,11 +276,14 @@
               }
             },
             onEachFeature: (feature, layer) => {
-              let size = filmsParDepartements[feature.properties.code] !== undefined
-                ? filmsParDepartements[feature.properties.code].length
+              let code = feature.properties.code == '2A'
+                || feature.properties.code == '2B'
+                ? '20' : feature.properties.code;
+              let size = filmsParDepartements[code] !== undefined
+                ? filmsParDepartements[code].length
                 : 0;
               layer.bindTooltip(
-                `${feature.properties.code} : ${feature.properties.nom}<br/>${size}`,
+                `${code} : ${feature.properties.nom}<br/>${size}`,
                 {
                   permanent: true,
                   direction: 'center',
