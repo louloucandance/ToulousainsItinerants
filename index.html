@@ -78,12 +78,30 @@
 
   // load departements
   require(['./departements.js'], () => {
-    L.geoJSON(departements, {
+    let polygon = L.geoJSON(departements, {
       style: feature => {
-          switch (feature.properties.code) {
-              case "31": return {color: "#ff0000"};
-          }
-          return {color: "#00ff00"}
+        let color = null;
+        if (feature.properties.code > 75) {
+            color = '#8EFF2B';
+        } else if (feature.properties.code > 50) {
+            color = '#FFF237';
+        } else if (feature.properties.code > 25) {
+            color = '#FFBF17';
+        } else {
+            color = '#FF881A';
+        }
+        
+        return {
+          name: feature.properties.nom,
+          "amenity": "Baseball Stadium",
+          "popupContent": "This is where the Rockies play!",
+          weight: 2,
+          opacity: 0.3,
+          color
+        }
+      },
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(`${feature.properties.code} : ${feature.properties.nom}`);
       }
     }).addTo(map);
   });
