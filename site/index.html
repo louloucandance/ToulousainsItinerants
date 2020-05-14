@@ -191,9 +191,9 @@
     document.getElementById('loader').classList.remove('success');
     $.ajax({
       url:
-        'http://localhost:3030/Web/query '
-        + "?query"
-        + encodeURIComponent('SELECT * {?s ?p ?o}')
+        'http://localhost:3030/Web/query'
+        + "?query="
+        + encodeURIComponent('PREFIX :<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#> SELECT * WHERE{:Us ?b ?a}')
         + "&format=json",
       success: result => {
         console.log({ result });
