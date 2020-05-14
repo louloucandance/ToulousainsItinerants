@@ -235,7 +235,6 @@
         + "&format=json",
       success: result => {
 
-        console.log(result.results.bindings);
         document.getElementById('loader').classList.add('success');
 
         for (let filmKey in result.results.bindings) {
@@ -311,8 +310,64 @@
     document.getElementById('upload').classList.add('file-loaded');
   });
 
+  function sendFilm(titre, note) {
+    $.post({
+      url:
+        'http://localhost:3030/Web/update'
+        + "?update="
+        + encodeURIComponent(
+          'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'
+          + 'PREFIX : <http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#>'
+          + 'PREFIX owl: <http://www.w3.org/2002/07/owl#>'
+          + 'INSERT DATA{'
+          + `:${titre.replace(/[^0-9a-z]/gi, '')} rdf:type :Film;`
+          + 'rdf:type owl:NamedIndividual;'
+          + `:a_pour_nom "${titre}";`
+          + `':a_une_note_de ${note};'`
+          + '}'
+        ),
+      success: result => {
+        console.log(result);
+      },
+      error: (result, textStatus, errorThrown) => {
+        console.log({ result, textStatus, errorThrown });
+      }
+    });
+  }
+
   document.getElementById('upload').onclick = () => {
-    console.log('clicked');
+    $.ajax({
+      url: 'https://toulouse-metropole.opendatasoft.com/api/records/1.0/search/?dataset=top-500-des-films-les-plus-empruntes-a-la-bibliotheque-de-toulouse&q=&rows=5',
+      success: result => {
+
+        for (let key in result.records) {
+          let record = result.records[key];
+          $.ajax({
+            url:
+              'https://api.themoviedb.org/3/search/movie?api_key='
+              + '4f2d42e28ff4a24fc112e27f5719976a'
+              + '&query='
+              + encodeURIComponent(record.fields.titre)
+              + '&page=1',
+            success: result => {
+              if (result.total_results > 0) {
+                sendFilm(
+                  record.fields.titre,
+                  result.results[0].vote_average * 10
+                );
+              }
+            },
+            error: (result, textStatus, errorThrown) => {
+              console.log({ result, textStatus, errorThrown });
+            }
+          });
+        }
+
+      },
+      error: (result, textStatus, errorThrown) => {
+        console.log({ result, textStatus, errorThrown });
+      }
+    });
   };
 
   </script>
