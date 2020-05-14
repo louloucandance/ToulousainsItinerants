@@ -112,8 +112,13 @@
       display: flex;
       width: 69px;
       height: 69px;
+      opacity: 0;
       z-index: 1000;
       cursor: pointer;
+      transition: ease 0.4s;
+    }
+    #upload.file-loaded {
+      opacity: 1;
     }
     #upload .upload-icon {
       margin: auto;
@@ -269,6 +274,12 @@
       }
     }).addTo(map);
 
+  });
+
+  
+
+  require(['./departementCodes.js'], () => {
+    document.getElementById('upload').classList.add('file-loaded');
   });
 
   document.getElementById('upload').onclick = () => {
