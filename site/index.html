@@ -318,18 +318,20 @@
 
   function addDepartment(regionCode,name){
     $.post({
+      beforeSend: function(xhr){xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');},
       url:
         'http://localhost:3030/Web/update'
-        + "?query="
-        + encodeURIComponent('PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>'+
-        'PREFIX :<http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#>' +
-        'PREFIX owl: <http://www.w3.org/2002/07/owl#>'+
-        'INSERT DATA{'+
-        ':'+name.replace(/[^0-9a-z]/gi, '')+' rdf:type :Departement;' + 
-        'rdf:type owl:NamedIndividual;' +
-        ':a_pour_nom '+name.replace(/[^0-9a-z]/gi, '')+';'+
-        ':a_pour_numero '+parseInt(regionCode)+';' +
-        '}'
+        + "?update="
+        + encodeURIComponent(
+          'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'
+          + 'PREFIX : <http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#>'
+          + 'PREFIX owl: <http://www.w3.org/2002/07/owl#>'
+          + 'INSERT DATA{'
+          + `:${name.replace(/[^0-9a-z]/gi, '')} rdf:type :Departement ;`
+          + 'rdf:type owl:NamedIndividual ;'
+          + `:a_pour_nom "${name}" ;`
+          + `:a_pour_numero ${parseInt(regionCode)} ;`
+          + '}'
         ),
       success: result => {
         console.log({ result });
@@ -350,6 +352,7 @@
 
   function sendFilm(titre, note) {
     $.post({
+      beforeSend: function(xhr){xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');},
       url:
         'http://localhost:3030/Web/update'
         + "?update="
@@ -358,10 +361,10 @@
           + 'PREFIX : <http://www.semanticweb.org/louise/ontologies/2020/4/untitled-ontology-10#>'
           + 'PREFIX owl: <http://www.w3.org/2002/07/owl#>'
           + 'INSERT DATA{'
-          + `:${titre.replace(/[^0-9a-z]/gi, '')} rdf:type :Film;`
-          + 'rdf:type owl:NamedIndividual;'
-          + `:a_pour_nom "${titre}";`
-          + `':a_une_note_de ${note};'`
+          + `:${titre.replace(/[^0-9a-z]/gi, '')} rdf:type :Film ;`
+          + 'rdf:type owl:NamedIndividual ;'
+          + `:a_pour_nom "${titre}" ;`
+          + `:a_une_note_de ${note} ;`
           + '}'
         ),
       success: result => {
