@@ -339,9 +339,6 @@
           + `:a_pour_numero ${parseInt(regionCode)} ;`
           + '}'
         ),
-      success: result => {
-        console.log({ result });
-      },
       error: (result, textStatus, errorThrown) => {
         console.log({ result, textStatus, errorThrown });
       }
@@ -365,9 +362,6 @@
           + `:a_une_note_de ${note} ;`
           + '}'
         ),
-      success: result => {
-        console.log(result);
-      },
       error: (result, textStatus, errorThrown) => {
         console.log({ result, textStatus, errorThrown });
       }
@@ -379,7 +373,7 @@
       sendDepartment(departements.code, departements.name); 
     }
     $.ajax({
-      url: 'https://toulouse-metropole.opendatasoft.com/api/records/1.0/search/?dataset=top-500-des-films-les-plus-empruntes-a-la-bibliotheque-de-toulouse&q=&rows=5',
+      url: 'https://toulouse-metropole.opendatasoft.com/api/records/1.0/search/?dataset=top-500-des-films-les-plus-empruntes-a-la-bibliotheque-de-toulouse&q=&rows=500',
       success: result => {
 
         for (let key in result.records) {
