@@ -323,6 +323,9 @@
   });
 
   function sendDepartment(regionCode, name){
+    let code = regionCode == '2A'
+      || regionCode == '2B'
+      ? '20' : regionCode;
     $.post({
       beforeSend: function(xhr){xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');},
       url:
@@ -336,7 +339,7 @@
           + `:${name.replace(/[^0-9a-z]/gi, '')} rdf:type :Departement ;`
           + 'rdf:type owl:NamedIndividual ;'
           + `:a_pour_nom "${name}" ;`
-          + `:a_pour_numero ${parseInt(regionCode)} ;`
+          + `:a_pour_numero ${parseInt(code)} ;`
           + '}'
         ),
       error: (result, textStatus, errorThrown) => {
