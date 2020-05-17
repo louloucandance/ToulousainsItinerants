@@ -200,7 +200,9 @@
 
   <script>
 
+  // // // // //
   // initialize the map
+  // // // // //
 
   var map = L.map('map').setView([46.61, 2.4], 6.7);
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -212,7 +214,9 @@
     accessToken: 'pk.eyJ1IjoidGlncmk5IiwiYSI6ImNrYTJndGY2NDAzMjMza2xrZHZvbWtqOTgifQ.M0zsMOzbE-vrjD08Jij7eg'
   }).addTo(map);
 
+  // // // // //
   // request data
+  // // // // //
 
   var filmsParDepartements = {};
 
@@ -310,13 +314,15 @@
 
   queryDB();
 
+  // // // // //
   // upload data
+  // // // // //
 
   require(['./departementCodes.js'], () => {
     document.getElementById('upload').classList.add('file-loaded');
   });
 
-  function addDepartment(regionCode,name){
+  function sendDepartment(regionCode, name){
     $.post({
       beforeSend: function(xhr){xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');},
       url:
@@ -335,17 +341,9 @@
         ),
       success: result => {
         console.log({ result });
-        document.getElementById('loader').classList.add('success');
-        
       },
       error: (result, textStatus, errorThrown) => {
         console.log({ result, textStatus, errorThrown });
-        document.getElementById('loader').classList.add('error');
-        setTimeout(() => {
-            queryDB();
-          },
-          5000
-        );
       }
     });
   }
@@ -378,7 +376,7 @@
 
   document.getElementById('upload').onclick = () => {
     for(departements of departementCodes){
-      addDepartment(departements.code,departements.name); 
+      sendDepartment(departements.code, departements.name); 
     }
     $.ajax({
       url: 'https://toulouse-metropole.opendatasoft.com/api/records/1.0/search/?dataset=top-500-des-films-les-plus-empruntes-a-la-bibliotheque-de-toulouse&q=&rows=5',
